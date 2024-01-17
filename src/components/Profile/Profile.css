@@ -1,0 +1,133 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 44px auto 0;
+}
+
+.profile__container-info {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.profile__container {
+  display: flex;
+  flex-direction: row;
+  gap: 38px;
+}
+
+.profile__title {
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: 600;
+  margin: 0;
+}
+
+.profile__edit-button-image {
+  background-image: url(../../image/edit.png);
+  width: 16px;
+  height: 16px;
+  margin-top: 4px;
+}
+
+.profile__edit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile__edit-button-text {
+  margin: 0;
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #466EFA;
+}
+
+.profile__edit-button {
+  text-decoration: none;
+}
+
+.profile__data-containers {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+}
+
+.profile__data-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  gap: 6px;
+}
+
+.profile__data {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.profile__label {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #717583;
+}
+
+.profile__container-productivity {
+  display: flex;
+  flex-direction: row;
+  background-color: #F6F8FF;
+  border-radius: 32px;
+  margin-top: 72px;
+  justify-content: space-between;
+}
+
+.profile__productivity {
+  display: flex;
+  flex-direction: column;
+  margin-left: 40px;
+}
+
+.profile__productivity-title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 42px 0 0;
+}
+
+.profile__productivity-text {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 12px 0 0;
+}
+
+.profile__productivity-more {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  background-color: #466EFA;
+  color: #FFFFFF;
+  margin: 37px 0 40px;
+  width: 280px;
+  height: 48px;
+  border-radius: 12px;
+  border: none;
+}
+
+.profile__container-productivity-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 240px;
+}
+
+.profile__productivity-image {
+  margin-top: 11px;
+}
