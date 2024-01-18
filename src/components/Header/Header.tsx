@@ -1,8 +1,13 @@
 import React from 'react'
 import './Header.css'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setStatePopupExit } from '../feature/popupExit/popupExitSlice'
+import { useLocation } from 'react-router-dom'
+
 
 export default function Header() {
+  const location = useLocation()
+  const dispatch = useDispatch()
   return (
     <header className='header'>
       <div className='header__container'>
@@ -10,15 +15,13 @@ export default function Header() {
           <span className='header__logo'></span>
           <p className='header__title'>Purrweb</p>
         </div>
-        <div className='header__container-account'>
+        {location.pathname === '/' && <div className='header__container-account'>
           <p className='header__account-name'>Анастасия Филатовна</p>
           <div className='header__container-account-exit'>
-            <Link to='/sign-in' className='header__account-exit'>
-              <span className='header__account-exit-text'>Выйти</span>
-            </Link>
+            <button className='header__account-exit-text' onClick={() => { dispatch(setStatePopupExit())}}>Выйти</button>
             <span className='header__account-exit-image'></span>
           </div>
-        </div>
+        </div>}
       </div>
     </header>
   )

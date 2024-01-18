@@ -2,8 +2,11 @@ import React from 'react'
 import './Profile.css'
 import { Link } from 'react-router-dom'
 import Productivity from '../../image/g10.png'
+import PopupExit from '../PopupExit'
+import { useSelector } from 'react-redux'
 
 export default function Profile() {
+  const statePopupExit = useSelector((state: { popupExit: { isActive: boolean } }) => state.popupExit.isActive)
   const openAccordeon = (e: React.MouseEvent<HTMLLIElement>) => {
     const currentItem = e.currentTarget
     // Проверка активности аккордеона
@@ -88,6 +91,7 @@ export default function Profile() {
           </li>
         </ul>
       </section>
+      {statePopupExit && <PopupExit />}
     </main>
   )
 }

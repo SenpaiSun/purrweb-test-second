@@ -1,0 +1,159 @@
+.popup-info {
+
+}
+
+.popup-info__form {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+  width: 424px;
+  box-shadow: 0px 12px 26px 0px #E8E9EC91;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+}
+
+.popup-info__title {
+  margin: 80px auto 48px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.popup-info__inputs{
+
+}
+
+.popup-info__inputs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+  margin: 24px 72px 0;
+}
+
+.popup-info__label {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.popup-info__input-full {
+  height: 48px;
+  border-radius: 12px;
+  border: none;
+  background-color: #F2F3F4;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.popup-info__input {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  height: 20px;
+  background-color: #F2F3F4;
+  border: none;
+  width: 100%;
+}
+
+.popup-info__input:focus {
+  outline: none;
+}
+
+.popup-info__input-full:focus-within {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.popup-info__input-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.popup-info__input-eye {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-image: url(../../image/close-eye.png);
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.popup-info__input-accept {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-image: url(../../image/accept-form.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.popup-info__input-error {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-image: url(../../image/cancel-form.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.popup-info__input {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  height: 20px;
+  background-color: #F2F3F4;
+  border: none;
+}
+
+
+.popup-info__button {
+  height: 52px;
+  background-color: #466EFA;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.popup-info__text {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 36px 0 68px;
+}
+
+.popup-info__input-text-error {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-top: -20px;
+  color: #F46666;
+}
+
+.popup-info__text-info {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.popup-info__text-link {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-decoration: none;
+  color: #466EFA;
+  margin: 0;
+}
