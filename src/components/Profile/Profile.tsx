@@ -4,6 +4,22 @@ import { Link } from 'react-router-dom'
 import Productivity from '../../image/g10.png'
 
 export default function Profile() {
+  const openAccordeon = (e: React.MouseEvent<HTMLLIElement>) => {
+    const currentItem = e.currentTarget
+    // Проверка активности аккордеона
+    const isActive = currentItem.classList.contains('profile__container-faq-item-active')
+    // Закрытие активных аккордеонов
+    document.querySelectorAll('.profile__container-faq-item-active').forEach((item) => item.classList.remove('profile__container-faq-item-active'))
+    document.querySelectorAll('.profile__faq-text-active').forEach((item) => item.classList.remove('profile__faq-text-active'))
+    // Условие активности для аккордеона
+    if (!isActive) {
+      currentItem.classList.add('profile__container-faq-item-active')
+      const items: NodeListOf<HTMLElement> = currentItem.querySelectorAll('.profile__faq-text')
+      items.forEach((item) => {
+        item.classList.add('profile__faq-text-active')
+      })
+    }
+  }
   return (
     <main className='profile'>
       <section className='profile__container-info'>
@@ -45,28 +61,32 @@ export default function Profile() {
           <img src={Productivity} alt='' className='profile__productivity-image' />
         </div>
       </section>
-      <section>
-        <div>
-          <div>
-            <h3>Подписываете ли вы соглашение о неразглашении?</h3>
-            <p>Конечно!</p>
-            <p>Наша студия мобильной разработки и UI/UX дизайна гарантирует предотвращение утечки конфиденциальной информации и ее защиту.</p>
-          </div>
-          <div>
-            <h3>Сколько займет создание MVP?</h3>
-            <p>Чтобы создать надежный продукт, вам необходимо создать его прототип, спроектировать, разработать и протестировать. На прохождение всех этих этапов у вас уйдет около 3 месяцев.</p>
-          </div>
-          <div>
-            <h3>Предоставляете ли вы маркетинговые услуги?</h3>
-            <p>Наши сильные стороны - UI / UX, разработка, контроль качества и менеджмент. Не маркетинг. Мы не стремимся к достижению «средних» результатов, поэтому вам лучше найти для этого настоящих экспертов по маркетингу и агентство.</p>
-          </div>
-          <div>
-            <h3>Различается ли MVP от прототипов?</h3>
-            <p>В отличие от прототипов, MVP - это функциональный продукт, а не просто набор бумажных набросков.</p>
-            <p>MVP это своего рода прототип, но процесс разработки занимает чуть больше времени, а его техническая начинка более сложная. Разработка MVP необходима как демонстрационная версия продукта для проверки жизнеспособности идеи.</p>
-            <p>Это как-то работает (хотя и не то же самое, что в плохом исполнении) и уже приносит реальную пользу конечным пользователям. Он должен быть вашей «истинной» отправной точкой, поэтому вы можете использовать его, чтобы начать отслеживать намерение покупки (сколько пользователей превратится в клиентов) или получить финансирование.</p>
-          </div>
-        </div>
+      <section className='profile__faq'>
+        <h2 className='profile__faq-title-main'>Часто задаваемые вопросы</h2>
+        <ul className='profile__container-faq'>
+          <li className='profile__container-faq-item' onClick={(e) => openAccordeon(e)}>
+            <h3 className='profile__faq-title'>Подписываете ли вы соглашение о неразглашении?</h3>
+            <p className='profile__faq-text'>Конечно!</p>
+            <p className='profile__faq-text'>Наша студия мобильной разработки и UI/UX дизайна гарантирует предотвращение утечки конфиденциальной информации и ее защиту.</p>
+          </li>
+          <li className='profile__container-faq-item' onClick={(e) => openAccordeon(e)}>
+            <h3 className='profile__faq-title'>Сколько займет создание MVP?</h3>
+            <p className='profile__faq-text'>Чтобы создать надежный продукт, вам необходимо создать его прототип, спроектировать, разработать и протестировать. На прохождение всех этих этапов у вас уйдет около 3 месяцев.</p>
+          </li>
+          <li className='profile__container-faq-item' onClick={(e) => openAccordeon(e)}>
+            <h3 className='profile__faq-title'>Предоставляете ли вы маркетинговые услуги?</h3>
+            <p className='profile__faq-text'>Наши сильные стороны - UI / UX, разработка, контроль качества и менеджмент. Не маркетинг. Мы не стремимся к достижению «средних» результатов, поэтому вам лучше найти для этого настоящих экспертов по маркетингу и агентство.</p>
+          </li>
+          <li className='profile__container-faq-item' onClick={(e) => openAccordeon(e)}>
+            <h3 className='profile__faq-title'>Различается ли MVP от прототипов?</h3>
+            <p className='profile__faq-text'>В отличие от прототипов, MVP - это функциональный продукт, а не просто набор бумажных набросков.</p>
+            <p className='profile__faq-text'>MVP это своего рода прототип, но процесс разработки занимает чуть больше времени, а его техническая начинка более сложная. Разработка MVP необходима как демонстрационная версия продукта для проверки жизнеспособности идеи.</p>
+            <p className='profile__faq-text'>
+              Это как-то работает (хотя и не то же самое, что в плохом исполнении) и уже приносит реальную пользу конечным пользователям. Он должен быть вашей «истинной» отправной точкой, поэтому вы можете использовать его, чтобы начать отслеживать намерение покупки (сколько пользователей
+              превратится в клиентов) или получить финансирование.
+            </p>
+          </li>
+        </ul>
       </section>
     </main>
   )
