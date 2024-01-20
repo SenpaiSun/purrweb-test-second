@@ -1,14 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FieldError, useForm } from 'react-hook-form'
 import './PopupInfo.css'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setStatePopupRegister } from '../feature/popupRegister/popupRegisterSlice'
 
 interface Props {
-  propsItems: {
+  propsItems?: {
     textTitle: string
     textRedirect: string
+    firstInput: string
+    firstInputPlaceholder: string
+    secondInput: string
+    secondInputPlaceholder: string
+    thirdInput: string
+    thirdInputPlaceholder: string
     textLink: string
     textUrl: string
     path: string
@@ -23,23 +29,38 @@ interface StatePopupRegister {
 
 export default function PopupInfo(props: Props) {
   const { propsItems } = props
+  const [isSubmitState, setIsSubmitState] = useState(false)
+  const location = useLocation()
+  const stateForm = useSelector((state: { popupRegister: StatePopupRegister }) => state.popupRegister)
+
   const dispatch = useDispatch()
   const {
     register,
     formState: { errors },
     handleSubmit,
     watch,
+    trigger,
   } = useForm()
-
-  const statePopupRegister = useSelector((state: { popupRegister: StatePopupRegister }) => state.popupRegister)
-  console.log(statePopupRegister)
 
   React.useEffect(() => {
     const subscription = watch((value) => dispatch(setStatePopupRegister({ email: value.email, password: value.password, passwordConfirm: value.passwordConfirm })))
     return () => subscription.unsubscribe()
   }, [watch, dispatch])
 
-  const onSubmit = () => {}
+  useEffect(() => {
+    setIsSubmitState(false)
+    trigger()
+  }, [trigger, stateForm])
+
+  const navigate = useNavigate()
+
+  const onSubmit = () => {
+    navigate('/about-me')
+  }
+
+  const onClickSubmit = () => {
+    setIsSubmitState(true)
+  }
 
   const toggleVisionPassword = (e: React.MouseEvent) => {
     const parentItem = e.currentTarget.parentNode?.parentNode
@@ -50,50 +71,58 @@ export default function PopupInfo(props: Props) {
       // меняем состояние элементов
       if (inputElement && eyeElement) {
         inputElement.type = inputElement.type === 'password' ? 'text' : 'password'
-        inputElement.style.fontSize = inputElement.type === 'password' ? '42px' : '14px'
         eyeElement.classList.toggle('popup-info__input-eye-active')
       }
     }
   }
+  console.log(watch())
+  console.log(stateForm)
 
   return (
     <section className='popup-info'>
       <form onSubmit={handleSubmit(onSubmit)} className='popup-info__form' noValidate>
-        <h1 className='popup-info__title'>{propsItems.textTitle}</h1>
+        <h1 className='popup-info__title'>{propsItems?.textTitle}</h1>
         <div className='popup-info__inputs-container'>
           <div className='popup-info__inputs'>
             <label htmlFor='email' className='popup-info__label'>
-              Электронная почта
+              {propsItems?.firstInput}
             </label>
             <div className='popup-info__input-full'>
               <input
                 type='email'
                 id='email'
                 className='popup-info__input'
-                {...register('email', {
-                  required: true,
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                    message: 'Некорректный формат электронной почты',
-                  },
-                })}
+                placeholder={propsItems?.firstInputPlaceholder}
+                {...(location.pathname === '/sign-up'
+                  ? register('email', {
+                      required: true,
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                        message: 'Некорректная почта',
+                      },
+                    })
+                  : register('name', {
+                      required: true,
+                    }))}
               />
-              <div className='popup-info__input-buttons'>
-                <span className={errors?.email ? 'popup-info__input-accept popup-info__input-error-disabled' : 'popup-info__input-accept'} />
-                <span className={errors?.email ? 'popup-info__input-error' : 'popup-info__input-error popup-info__input-error-disabled'} />
-              </div>
+              {location.pathname !== '/about-me' && (<div className='popup-info__input-buttons'>
+                <span className={!errors?.email && stateForm.email !== '' ? 'popup-info__input-accept' : 'popup-info__input-accept popup-info__input-error-disabled'} />
+                <span className={errors?.email && stateForm.email !== '' ? 'popup-info__input-error' : 'popup-info__input-error popup-info__input-error-disabled'} />
+              </div>)}
             </div>
           </div>
           <div className='popup-info__inputs'>
             <label htmlFor='password' className='popup-info__label'>
-              Пароль
+              {propsItems?.secondInput}
             </label>
             <div className='popup-info__input-full'>
               <input
-                type='password'
+                 type={location.pathname === '/sign-up' ? 'password' : 'text'}
+                 id='passwordConfirm'
                 id='password'
                 className='popup-info__input'
-                {...register('password', {
+                placeholder={propsItems?.secondInputPlaceholder}
+                {... location.pathname !== '/about-me' && register('password', {
                   required: true,
                   minLength: {
                     value: 8,
@@ -101,49 +130,80 @@ export default function PopupInfo(props: Props) {
                   },
                 })}
               />
-              <div className='popup-info__input-buttons'>
+              {location.pathname !== '/about-me' && (<div className='popup-info__input-buttons'>
                 <button className='popup-info__input-eye' onClick={toggleVisionPassword} type='button' />
-                <span className='popup-info__input-accept' />
-                <span className='popup-info__input-error' />
-              </div>
+                {stateForm.password !== '' && (
+                  <>
+                    {!errors?.password && <span className='popup-info__input-accept' />}
+                    {errors?.password && <span className='popup-info__input-error' />}
+                  </>
+                )}
+              </div>)}
             </div>
           </div>
-          {propsItems.path === '/sign-up' && (
+          {(location.pathname === '/sign-up' || location.pathname === '/about-me') && (
             <div className='popup-info__inputs'>
-              <label htmlFor='passwordConfirm' className='popup-info__label'>
-                Повтор пароля
+              <label htmlFor={propsItems?.path === '/sign-up' ? 'passwordConfirm' : 'phone'} className='popup-info__label'>
+                {propsItems?.thirdInput}
               </label>
               <div className='popup-info__input-full'>
                 <input
-                  type='password'
+                  type={location.pathname === '/sign-up' ? 'password' : 'number'}
                   id='passwordConfirm'
                   className='popup-info__input'
-                  {...register('passwordConfirm', {
+                  placeholder={propsItems?.thirdInputPlaceholder}
+                  {...location.pathname !== '/about-me' ? register('passwordConfirm', {
                     required: true,
+                    validate: (value) => value === stateForm.password || 'Пароли не совпадают',
+                  }) : register('phone', {
+                    required: true,
+                    pattern: {
+                      value: /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/,
+                      message: 'Некорректный номер',
+                    }
                   })}
                 />
-                <div className='popup-info__input-buttons'>
+                {location.pathname !== '/about-me' && (<div className='popup-info__input-buttons'>
                   <button className='popup-info__input-eye' onClick={toggleVisionPassword} type='button' />
-                  <span className='popup-info__input-accept' />
-                  <span className='popup-info__input-error' />
-                </div>
+                  {(stateForm.passwordConfirm) !== '' && (
+                    <>
+                      {!errors?.passwordConfirm && <span className='popup-info__input-accept' />}
+                      {errors?.passwordConfirm && <span className='popup-info__input-error' />}
+                    </>
+                  )}
+                </div>)}
               </div>
             </div>
           )}
           <div className='popup-info__conainer-text-error'>
-            <span className={`popup-info__input-text-error ${errors?.email && typeof errors.email === 'object' ? 'visible' : 'hidden'}`}>{errors?.email && typeof errors.email === 'object' && (errors.email as FieldError).message}</span>
+            {isSubmitState && (
+              <>
+                <span className={`popup-info__input-text-error ${errors?.email && typeof errors.email === 'object' ? 'visible' : 'hidden'}`}>{errors?.email && typeof errors.email === 'object' && (errors.email as FieldError).message}</span>
+                <span className={`popup-info__input-text-error ${errors?.password && typeof errors.password === 'object' ? 'visible' : 'hidden'}`}>{errors?.password && typeof errors.password === 'object' && (errors.password as FieldError).message}</span>
+                {location.pathname === '/sign-up' && (
+                  <span className={`popup-info__input-text-error ${errors?.passwordConfirm && typeof errors.passwordConfirm === 'object' ? 'visible' : 'hidden'}`}>{errors?.passwordConfirm && typeof errors.passwordConfirm === 'object' && (errors.passwordConfirm as FieldError).message}</span>
+                )}
+                {location.pathname === '/about-me' && (
+                  <span className={`popup-info__input-text-error ${errors?.phone && typeof errors.phone === 'object' ? 'visible' : 'hidden'}`}>{errors?.phone && typeof errors.phone === 'object' && (errors.phone as FieldError).message}</span>
+                )}
+              </>
+            )}
           </div>
         </div>
         <div className='popup-info__inputs-container'>
-          <button type='submit' className='popup-info__button'>
+          <button type='submit' className='popup-info__button' onClick={onClickSubmit}>
             Продолжить
           </button>
         </div>
-        <div className='popup-info__text'>
-          <p className='popup-info__text-info'>{propsItems.textRedirect}</p>
-          <Link to={propsItems.textUrl} className='popup-info__text-link'>
-            {propsItems.textLink}
-          </Link>
+        <div className={location.pathname !== '/about-me' ? 'popup-info__text' : 'popup-info__text popup-info__text-about'}>
+          {location.pathname !== '/about-me' && (
+            <>
+              <p className='popup-info__text-info'>{propsItems?.textRedirect}</p>
+              <Link to={propsItems?.textUrl || '/default-path'} className='popup-info__text-link'>
+                {propsItems?.textLink || 'Некорректное поле'}
+              </Link>
+            </>
+          )}
         </div>
       </form>
     </section>

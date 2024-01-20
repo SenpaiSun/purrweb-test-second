@@ -5,3 +5,9 @@
   font-weight: 500;
   color: #0B1332;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
