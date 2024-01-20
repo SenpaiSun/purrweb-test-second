@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction} from '@reduxjs/toolkit'
+
 
 interface StatePopupRegister {
   email: string
-  password: string
-  passwordConfirm: string
+  password?: string
+  passwordConfirm?: string
   name: string
-  lastName: string
+  surname: string
   phone: string
 }
 
@@ -14,7 +15,7 @@ const initialState: StatePopupRegister = {
   password: '',
   passwordConfirm: '',
   name: '',
-  lastName: '',
+  surname: '',
   phone: '',
 }
 
@@ -27,7 +28,7 @@ export const popupRegisterSlice = createSlice({
       state.password = action.payload.password
       state.passwordConfirm = action.payload.passwordConfirm
       state.name = action.payload.name
-      state.lastName = action.payload.lastName
+      state.surname = action.payload.surname
       state.phone = action.payload.phone
     },
   },
@@ -35,3 +36,4 @@ export const popupRegisterSlice = createSlice({
 
 export const { setStatePopupRegister } = popupRegisterSlice.actions
 export default popupRegisterSlice.reducer
+
