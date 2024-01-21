@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setStatePopupRegister } from '../feature/popupRegister/popupRegisterSlice'
 import axios from 'axios'
+import { login } from '../feature/authSlice/authSlice'
 
 interface Props {
   propsItems?: {
@@ -36,14 +37,18 @@ export default function PopupInfo(props: Props) {
   const [isSubmitState, setIsSubmitState] = useState(false)
   const location = useLocation()
   const stateForm = useSelector((state: { popupRegister: StatePopupRegister }) => state.popupRegister)
+  const storedUserInfo = localStorage.getItem('userInfo')
+  const userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : {}
+  console.log(userInfo)
 
   const dispatch = useDispatch()
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     watch,
     trigger,
+    setError,
   } = useForm()
 
   useEffect(() => {
@@ -60,34 +65,62 @@ export default function PopupInfo(props: Props) {
 
   const onLoginHandler = async () => {
     await axios
-    .post('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/auth/login', {
-      email: stateForm.email,
-      password: stateForm.password,
-    })
-    .then((res) => {
-      localStorage.setItem('token', res.data.accessToken)
-      navigate('/')
-    })
-    .catch((error) => console.log(error))
+      .post('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/auth/login', {
+        email: stateForm.email,
+        password: stateForm.password,
+      })
+      .then((res) => {
+        res && localStorage.setItem('token', JSON.stringify(res.data.accessToken))
+        dispatch(login())
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          setError('password', { type: 'custom', message: 'Неверная почта или пароль' })
+        } else {
+          setError('password', { type: 'custom', message: 'Произошла ошибка. Обновите страницу и попробуйте еще раз' })
+        }
+      })
   }
 
   const onRegisterHandler = async () => {
     await axios
       .post('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/auth/register', stateForm)
-      .then((res) => {
-        localStorage.setItem('token', res.data)
+      .then(async (res) => {
+        localStorage.setItem('userInfo', JSON.stringify(res.data))
+        await onLoginHandler()
         navigate('/')
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        if (error.response.status === 409) {
+          setError('phone', { type: 'custom', message: 'Пользователь с таким email уже существует' })
+        } else {
+          setError('phone', { type: 'custom', message: 'Произошла ошибка. Обновите страницу и попробуйте еще раз' })
+        }
+      })
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (location.pathname === '/sign-up') {
       navigate('/about-me', { state: { stateForm } })
     } else if (location.pathname === '/about-me') {
       onRegisterHandler()
     } else if (location.pathname === '/sign-in') {
-      onLoginHandler()
+      await onLoginHandler()
+      // Так как эндпоинт /auth/login возвращает только токен, в таком случае ищем пользователя перебором всех существующих юзеров по email, в случае, если мы успешно получили токен
+      if (localStorage.getItem('token')) {
+        axios
+          .get('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/users')
+          .then((res) => {
+            const user = res.data.find((item: { email: string }) => item.email === stateForm.email)
+            if (user) {
+              console.log(user)
+              localStorage.setItem('userInfo', JSON.stringify(user))
+            }
+            window.location.reload()
+            navigate('/')
+          })
+          .catch((error) => console.log(error))
+      }
     }
   }
 
@@ -117,9 +150,15 @@ export default function PopupInfo(props: Props) {
   }, [dispatch, location.state, watch])
 
   console.log(stateForm)
-  setTimeout(() => {
-    console.log(localStorage.getItem('token'))
-  }, 5000)
+
+  useEffect(() => {
+    dispatch(setStatePopupRegister({ email: '', password: '', passwordConfirm: '', name: '', surname: '', phone: '' }));
+  }, [dispatch]);
+
+  const goBack = () => {
+    dispatch(setStatePopupRegister({ email: '', password: '', passwordConfirm: '', name: '', surname: '', phone: '' }))
+    navigate(-1)
+  }
 
   return (
     <section className='popup-info'>
@@ -151,7 +190,7 @@ export default function PopupInfo(props: Props) {
               {location.pathname !== '/about-me' && (
                 <div className='popup-info__input-buttons'>
                   <span className={!errors?.email && stateForm.email !== '' ? 'popup-info__input-accept' : 'popup-info__input-accept popup-info__input-error-disabled'} />
-                  <span className={errors?.email && stateForm.email !== '' ? 'popup-info__input-error' : 'popup-info__input-error popup-info__input-error-disabled'} />
+                  <span className={(errors?.email && stateForm.email !== '') ? 'popup-info__input-error' : 'popup-info__input-error popup-info__input-error-disabled'} />
                 </div>
               )}
             </div>
@@ -243,7 +282,7 @@ export default function PopupInfo(props: Props) {
           </div>
         </div>
         <div className='popup-info__inputs-container'>
-          <button type='submit' className='popup-info__button' onClick={onClickSubmit}>
+          <button type='submit' className='popup-info__button' onClick={onClickSubmit} disabled={!isValid}>
             Продолжить
           </button>
         </div>
@@ -258,6 +297,12 @@ export default function PopupInfo(props: Props) {
           )}
         </div>
       </form>
+      {location.pathname === '/about-me' && (
+        <button className='popup-info__button-back' onClick={goBack}>
+          <span className='popup-info__button-back-span'></span>
+          Назад
+        </button>
+      )}
     </section>
   )
 }

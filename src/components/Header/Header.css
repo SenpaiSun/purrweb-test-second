@@ -63,6 +63,7 @@
 
 .header__account-exit {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .header__account-exit-image {
@@ -80,4 +81,21 @@
   color: #466EFA;
   border: none;
   background-color: #FFFFFF;
+}
+
+.header__account-exit-text:hover {
+  cursor: pointer;
+  color: #113ACA;
+}
+
+.header__account-exit-text:focus {
+  background-color: #F2F3F4;
+  outline: none;
+  border-radius: 12px;
+}
+
+.profile__edit-button:focus {
+  background-color: #F2F3F4;
+  outline: none;
+  border-radius: 12px;
 }

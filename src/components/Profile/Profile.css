@@ -121,6 +121,16 @@
   border: none;
 }
 
+.profile__productivity-more:hover {
+  background-color: #113aca;
+  cursor: pointer;
+}
+
+.profile__productivity-more:focus {
+  border: 5px solid #F2F3F4;
+  outline: none;
+}
+
 .profile__container-productivity-image {
   display: flex;
   justify-content: center;

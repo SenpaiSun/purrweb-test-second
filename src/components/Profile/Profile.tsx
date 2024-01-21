@@ -2,11 +2,15 @@ import React from 'react'
 import './Profile.css'
 import { Link } from 'react-router-dom'
 import Productivity from '../../image/g10.png'
-import PopupExit from '../PopupExit'
+import PopupExit from '../popupExit/PopupExit'
 import { useSelector } from 'react-redux'
 
 export default function Profile() {
   const statePopupExit = useSelector((state: { popupExit: { isActive: boolean } }) => state.popupExit.isActive)
+  const storedUserInfo = localStorage.getItem('userInfo')
+  const userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : {}
+
+
   const openAccordeon = (e: React.MouseEvent<HTMLLIElement>) => {
     const currentItem = e.currentTarget
     // Проверка активности аккордеона
@@ -24,7 +28,7 @@ export default function Profile() {
     }
   }
   return (
-    <main className='profile'>
+    storedUserInfo && (<main className='profile'>
       <section className='profile__container-info'>
         <div className='profile__container'>
           <h1 className='profile__title'>Мой профиль</h1>
@@ -38,19 +42,19 @@ export default function Profile() {
         <div className='profile__data-containers'>
           <dl className='profile__data-container'>
             <dt className='profile__label'>Имя</dt>
-            <dd className='profile__data'>Анастасия</dd>
+            <dd className='profile__data'>{userInfo.name || ''}</dd>
           </dl>
           <dl className='profile__data-container'>
             <dt className='profile__label'>Фамилия</dt>
-            <dd className='profile__data'>Филатовна</dd>
+            <dd className='profile__data'>{userInfo.surname || ''}</dd>
           </dl>
           <dl className='profile__data-container'>
             <dt className='profile__label'>Телефон</dt>
-            <dd className='profile__data'>+7 908 555 35 35</dd>
+            <dd className='profile__data'>{userInfo.phone || ''}</dd>
           </dl>
           <dl className='profile__data-container'>
             <dt className='profile__label'>Электронная почта</dt>
-            <dd className='profile__data'>nastie203@mail.ru</dd>
+            <dd className='profile__data'>{userInfo.email || ''}</dd>
           </dl>
         </div>
       </section>
@@ -92,6 +96,6 @@ export default function Profile() {
         </ul>
       </section>
       {statePopupExit && <PopupExit />}
-    </main>
+    </main>)
   )
 }
