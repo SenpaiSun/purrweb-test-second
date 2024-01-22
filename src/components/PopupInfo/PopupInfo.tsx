@@ -162,7 +162,7 @@ export default function PopupInfo(props: Props) {
 
   return (
     <section className='popup-info'>
-      <form onSubmit={handleSubmit(onSubmit)} className='popup-info__form' noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className={location.pathname === '/sign-in' ?'popup-info__form popup-info__form-signin' : location.pathname === '/sign-up' ? 'popup-info__form popup-info__form-signup' : 'popup-info__form popup-info__form-about-me'} noValidate>
         <h1 className='popup-info__title'>{propsItems?.textTitle}</h1>
         <div className='popup-info__inputs-container'>
           <div className='popup-info__inputs'>
@@ -219,7 +219,7 @@ export default function PopupInfo(props: Props) {
               />
               {location.pathname !== '/about-me' && (
                 <div className='popup-info__input-buttons'>
-                  <button className='popup-info__input-eye' onClick={toggleVisionPassword} type='button' />
+                  {stateForm.password.length > 0 && <button className='popup-info__input-eye' onClick={toggleVisionPassword} type='button' />}
                   {stateForm.password !== '' && (
                     <>
                       {!errors?.password && <span className='popup-info__input-accept' />}
@@ -256,7 +256,7 @@ export default function PopupInfo(props: Props) {
                 />
                 {location.pathname !== '/about-me' && (
                   <div className='popup-info__input-buttons'>
-                    <button className='popup-info__input-eye' onClick={toggleVisionPassword} type='button' />
+                    {stateForm.password.length > 0 && <button className='popup-info__input-eye' onClick={toggleVisionPassword} type='button' />}
                     {stateForm.passwordConfirm !== '' && (
                       <>
                         {!errors?.passwordConfirm && <span className='popup-info__input-accept' />}

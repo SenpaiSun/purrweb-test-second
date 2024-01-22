@@ -1,15 +1,49 @@
-.popup-info {
-}
-
 .popup-info__form {
   position: absolute;
-  top: 54%;
+  top: 51%;
   left: 50%;
   width: 424px;
   box-shadow: 0px 12px 26px 0px #e8e9ec91;
   transform: translate(-50%, -50%);
   border-radius: 12px;
 }
+
+
+.popup-info__form-signup {
+  top: 56.6%;
+}
+.popup-info__form-about-me {
+  top: 56.8%;
+}
+
+
+@media screen and (max-width: 1280px) {
+  .popup-info__form-signin {
+    top: 51%;
+  }
+  .popup-info__form-signup {
+    top: 59.5%;
+  }
+  .popup-info__form-about-me {
+    top: 59.7%;
+  }
+}
+
+@media screen and (max-width: 475px) {
+  .popup-info__form {
+    width: 343px;
+  }
+  .popup-info__form-signin {
+    top: 49%;
+  }
+  .popup-info__form-signup {
+    top: 54.7%;
+  }
+  .popup-info__form-about-me {
+    top: 61%;
+  }
+}
+
 
 .popup-info__title {
   margin: 80px auto 48px;
@@ -19,14 +53,17 @@
   text-align: center;
 }
 
-.popup-info__inputs {
-}
-
 .popup-info__inputs-container {
   display: flex;
   flex-direction: column;
   gap: 27px;
   margin: 24px 72px 0;
+}
+
+@media screen and (max-width: 475px) {
+  .popup-info__inputs-container {
+    margin: 24px 30px 0;
+  }
 }
 
 .popup-info__label {
@@ -143,6 +180,10 @@
   border: 5px solid #F2F3F4;
 }
 
+.popup-info__button:disabled {
+  background-color: #E5EBFF;
+}
+
 
 .popup-info__text {
   display: flex;
@@ -150,7 +191,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin: 36px 0 68px;
+  margin: 36px 0 68px -8px;
 }
 
 .popup-info__text-about {
@@ -204,6 +245,13 @@
   background-color: transparent;
   border: none;
   margin: 80px 0 0 126px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1280px) {
+  .popup-info__button-back {
+    margin: 80px 0 0 38px;
+  }
 }
 
 .popup-info__button-back-span {

@@ -14,7 +14,7 @@ export default function Header() {
       <div className='header__container'>
         <div className='header__container-logo'>
           <span className='header__logo'></span>
-          <p className='header__title'>Purrweb</p>
+          <p className={location.pathname !== '/' ? 'header__title' : 'header__title header__title-disabled'}>Purrweb</p>
         </div>
         {location.pathname === '/' && localStorage.getItem('token') && userInfo.name !== undefined && (
           <div className='header__container-account'>
