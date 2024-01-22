@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
+# Тестовое задание для компании Purrweb
+## Описание проекта:
+Cтраница авторизации/регистрации и страница личного кабинета по дизайну.
+Все страницы должны быть адаптированы под разные разрешения экранов (мобильные устройства, планшеты и десктоп).
+Все формы должны валидироваться и должны обрабатывать ошибки, ошибки должны всплывать в тостах.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![image](https://github.com/SenpaiSun/purrweb-test-second/assets/100027896/030a049a-338a-4ff1-bd9c-7bd15daf9784)
 
-Currently, two official plugins are available:
+## Технологии, которые применялись в проекте:
+HTML5, CSS3, TypeScipt, React, redux-toolkit, react-hook-form, axios, БЭМ методология, адаптивная верстка.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Установка:
 
-## Expanding the ESLint configuration
+**Клонируйте репозиторий:**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+`git clone git@github.com:SenpaiSun/purrweb-test.git`
 
-- Configure the top-level `parserOptions` property like this:
+**Установите зависимости:**
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+`npm ci`
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+**Можете запустить:**
+
+`npx vite`
