@@ -32,6 +32,11 @@ interface StatePopupRegister {
   phone: string
 }
 
+interface StateAuth {
+  isAuthenticated: boolean
+}
+
+
 export default function PopupInfo(props: Props) {
   const { propsItems } = props
   const [isSubmitState, setIsSubmitState] = useState(false)
@@ -40,7 +45,7 @@ export default function PopupInfo(props: Props) {
   const storedUserInfo = localStorage.getItem('userInfo')
   const userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : {}
   console.log(userInfo)
-
+  const authenticated  = useSelector((state: { auth: StateAuth }) => state.auth.isAuthenticated)
   const dispatch = useDispatch()
   const {
     register,
@@ -64,21 +69,44 @@ export default function PopupInfo(props: Props) {
   const navigate = useNavigate()
 
   const onLoginHandler = async () => {
+    console.log({
+      email: stateForm.email,
+      password: stateForm.password,
+    })
     await axios
       .post('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/auth/login', {
         email: stateForm.email,
         password: stateForm.password,
       })
       .then((res) => {
+        console.log(res)
         res && localStorage.setItem('token', JSON.stringify(res.data.accessToken))
         dispatch(login())
       })
       .catch((error) => {
+        console.log(error.response)
         if (error.response.status === 401) {
           setError('password', { type: 'custom', message: 'Неверная почта или пароль' })
         } else {
           setError('password', { type: 'custom', message: 'Произошла ошибка. Обновите страницу и попробуйте еще раз' })
         }
+      })
+  }
+
+  const onLoginItems = async () => {
+    await axios
+      .patch('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/users', {}, {
+        headers: {
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token') as string)}`
+        }
+      })
+      .then((res) => {
+        res && localStorage.setItem('userInfo', JSON.stringify(res.data))
+        dispatch(login())
+      })
+      .catch((error) => {
+          setError('password', { type: 'custom', message: 'Произошла ошибка. Обновите страницу и попробуйте еще раз' })
+          return console.log(error)
       })
   }
 
@@ -99,27 +127,37 @@ export default function PopupInfo(props: Props) {
       })
   }
 
+
+  const onUpdateUser = async () => {
+    await axios
+      .patch('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/users', {
+        name: stateForm.name,
+        surname: stateForm.surname,
+        phone: stateForm.phone
+      }, {
+        headers: {
+          'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token') as string)}`
+        }
+      })
+      .then((res) => {
+        res && localStorage.setItem('userInfo', JSON.stringify(res.data))
+        navigate('/', { replace: true });
+      })
+      .catch(() => {
+          setError('phone', { type: 'custom', message: 'Произошла ошибка. Обновите страницу и попробуйте еще раз' })
+      })
+  }
+
   const onSubmit = async () => {
     if (location.pathname === '/sign-up') {
       navigate('/about-me', { state: { stateForm } })
-    } else if (location.pathname === '/about-me') {
+    } else if (location.pathname === '/about-me' && !authenticated) {
       onRegisterHandler()
     } else if (location.pathname === '/sign-in') {
       await onLoginHandler()
-      // Так как эндпоинт /auth/login возвращает только токен, в таком случае ищем пользователя перебором всех существующих юзеров по email, в случае, если мы успешно получили токен
       if (localStorage.getItem('token')) {
-        axios
-          .get('http://test-task-second-chance-env.eba-ymma3p3b.us-east-1.elasticbeanstalk.com/users')
-          .then((res) => {
-            const user = res.data.find((item: { email: string }) => item.email === stateForm.email)
-            if (user) {
-              console.log(user)
-              localStorage.setItem('userInfo', JSON.stringify(user))
-            }
-            window.location.reload()
-            navigate('/')
-          })
-          .catch((error) => console.log(error))
+        await onLoginItems()
+        window.location.reload()
       }
     }
   }
@@ -185,6 +223,7 @@ export default function PopupInfo(props: Props) {
                     })
                   : register('name', {
                       required: true,
+                      value: userInfo.name,
                     }))}
               />
               {location.pathname !== '/about-me' && (
@@ -215,6 +254,7 @@ export default function PopupInfo(props: Props) {
                     })
                   : register('surname', {
                       required: true,
+                      value: userInfo.surname,
                     }))}
               />
               {location.pathname !== '/about-me' && (
@@ -252,6 +292,7 @@ export default function PopupInfo(props: Props) {
                           value: /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/,
                           message: 'Некорректный номер',
                         },
+                        value: userInfo.phone,
                       }))}
                 />
                 {location.pathname !== '/about-me' && (
@@ -282,7 +323,7 @@ export default function PopupInfo(props: Props) {
           </div>
         </div>
         <div className='popup-info__inputs-container'>
-          <button type='submit' className='popup-info__button' onClick={onClickSubmit} disabled={!isValid}>
+          <button type='submit' className='popup-info__button' onClick={ storedUserInfo ? onUpdateUser : onClickSubmit} disabled={!isValid}>
             Продолжить
           </button>
         </div>

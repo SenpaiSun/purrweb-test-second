@@ -1,6 +1,6 @@
 import React from 'react'
 import './Profile.css'
-import { Link } from 'react-router-dom'
+import { Link,} from 'react-router-dom'
 import Productivity from '../../image/g10.png'
 import PopupExit from '../popupExit/PopupExit'
 import { useSelector } from 'react-redux'
@@ -27,7 +27,7 @@ export default function Profile() {
     }
   }
   return (
-    storedUserInfo && (
+    userInfo.name && (
       <main className='profile'>
         <section className='profile__container-info'>
           <div className='profile__container'>
