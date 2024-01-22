@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'Gilroy';
+  font-weight: 500;
+  src: url(./fonts/Gilroy-Medium.woff2),
+  url(./fonts/Gilroy-Medium.woff);
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-weight: 400;
+  src: url(./fonts/Gilroy-Regular.woff2),
+  url(./fonts/Gilroy-Regular.woff);
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-weight: 600;
+  src: url(./fonts/Gilroy-Semibold.woff2),
+  url(./fonts/Gilroy-Semibold.woff);
+}

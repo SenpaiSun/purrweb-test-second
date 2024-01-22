@@ -1,0 +1,128 @@
+.popup-exit__overlay {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup-exit__overlay-active {
+  z-index: 1;
+  opacity: 0.2;
+  visibility: visible;
+}
+
+.popup-exit {
+  position: fixed;
+  top: 52.7%;
+  left: 50%;
+  transform: translate(-50%, -47%);
+  max-width: 332px;
+  margin: 0;
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  z-index: 2;
+}
+
+.popup-exit__buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin: 0 24px 32px;
+}
+
+.popup-exit__text {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 28px 24px 36px;
+}
+
+@media screen and (max-width: 1280px) {
+  .popup-exit {
+    top: 59.9%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .popup-exit {
+    top: 91.3%;
+    width: 100%;
+    max-width: 100%;
+  }
+  .popup-exit__buttons {
+    margin: 0 17px 167px;
+  }
+  .popup-exit__text {
+    margin: 18px 15px 38px;
+    max-width: 260px;
+  }
+}
+
+@media screen and (max-width: 492px) {
+  .popup-exit {
+    top: 89.3%;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+.popup-exit__close {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  background-image: url(../../image/x_20.png);
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+  .popup-exit__close {
+    display: none;
+  }
+}
+
+.popup-exit__cancel {
+  color: #466EFA;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  border: none;
+  background-color: #DAE2FF;
+  border-radius: 12px;
+  height: 48px;
+  padding: 0;
+  width: 100%;
+}
+
+.popup-exit__cancel:hover {
+  cursor: pointer;
+  color: #113ACA;
+}
+
+.popup-exit__exit {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  border: none;
+  background-color: #466EFA;
+  border-radius: 12px;
+  height: 48px;
+  padding: 0;
+  width: 100%;
+}
+
+.popup-exit__exit:hover {
+  cursor: pointer;
+  background-color: #113ACA;
+}

@@ -1,0 +1,131 @@
+.header {
+  height: 80px;
+  border-bottom: 1px solid #EFEFEF;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1280px) {
+  .header__container {
+    margin-left: 32px;
+  }
+}
+
+@media screen and (max-width: 475px) {
+  .header__container {
+    margin-left: 16px;
+  }
+}
+
+.header__container-logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: -10px;
+}
+
+.header__logo {
+  width: 43px;
+  height: 43px;
+  background-image: url(../../image/logo.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.header__title {
+  font-family: 'Gilroy', Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.3;
+  margin: -4px 0 0 2px;
+}
+
+@media screen and (max-width: 767px) {
+  .header__title-disabled {
+    display: none;
+  }
+}
+
+.header__container-account {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-right: 8px;
+}
+
+@media screen and (max-width: 1280px) {
+  .header__container-account {
+    margin-right: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header__container-account {
+    margin-right: 24px;
+  }
+}
+
+.header__account-name {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.header__container-account-exit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  background-color: #FFF;
+}
+
+.header__account-exit {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header__account-exit-image {
+  width: 16px;
+  height: 16px;
+  background-image: url(../../image/out_16.png);
+  background-repeat: no-repeat;
+}
+
+.header__account-exit-text {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #466EFA;
+  border: none;
+  background-color: #FFFFFF;
+}
+
+.header__account-exit-text:hover {
+  cursor: pointer;
+  color: #113ACA;
+}
+
+.header__account-exit-text:focus {
+  background-color: #F2F3F4;
+  outline: none;
+  border-radius: 12px;
+}
+
+.profile__edit-button:focus {
+  background-color: #F2F3F4;
+  outline: none;
+  border-radius: 12px;
+}
